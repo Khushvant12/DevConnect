@@ -19,6 +19,12 @@ app.use(
 );
 
 app.use(express.json({ limit: '10mb' }));
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "DevConnect API is running",
+  });
+});
 app.use(express.urlencoded({ extended: true }));
 
 // REST API under /api
