@@ -10,6 +10,8 @@ import ProjectCard from '../components/projects/ProjectCard.jsx';
 import ProjectCardSkeleton from '../components/projects/ProjectCardSkeleton.jsx';
 import CreateProjectModal from '../components/projects/CreateProjectModal.jsx';
 import Button from '../components/ui/Button.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
+import EmptyState from '../components/ui/EmptyState.jsx';
 
 const emptySearch = { q: '', tech: '', developer: '' };
 
@@ -137,17 +139,17 @@ export default function Feed() {
           </>
         }
       >
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Developer Feed</h1>
-            <p className="text-slate-500">Discover projects from the community</p>
-          </div>
-          {isAuthenticated && (
-            <Button onClick={() => setCreateOpen(true)}>+ New project</Button>
-          )}
-        </div>
+        <PageHeader
+          title="Developer feed"
+          subtitle="Discover projects from the community"
+          actions={
+            isAuthenticated ? (
+              <Button onClick={() => setCreateOpen(true)}>+ New project</Button>
+            ) : null
+          }
+        />
 
-        <div className="card mb-6">
+        <div className="card mb-6 !p-5">
           <SearchBar values={search} onChange={setSearch} onSearch={handleSearch} loading={loading} />
         </div>
 
@@ -158,15 +160,20 @@ export default function Feed() {
             ))}
           </div>
         ) : projects.length === 0 ? (
-          <div className="card py-16 text-center">
-            <p className="text-lg font-medium text-slate-700 dark:text-slate-300">No projects found</p>
-            <p className="mt-2 text-sm text-slate-500">Try different filters or be the first to post!</p>
-            {isAuthenticated && (
-              <Button className="mt-6" onClick={() => setCreateOpen(true)}>
-                Create project
-              </Button>
-            )}
-          </div>
+          <EmptyState
+            icon={
+              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            }
+            title="No projects found"
+            description="Try adjusting your filters or search terms, or be the first to share a project."
+            action={
+              isAuthenticated ? (
+                <Button onClick={() => setCreateOpen(true)}>Create project</Button>
+              ) : null
+            }
+          />
         ) : (
           <>
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -181,12 +188,12 @@ export default function Feed() {
                 />
               ))}
             </div>
-            <div ref={loaderRef} className="mt-8 flex justify-center py-4">
+            <div ref={loaderRef} className="mt-8 flex justify-center py-6">
               {loadingMore && (
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+                <div className="h-8 w-8 animate-spin rounded-full border-[3px] border-slate-200 border-t-brand-600 dark:border-slate-700 dark:border-t-brand-400" role="status" aria-label="Loading more" />
               )}
               {!hasMore && projects.length > 0 && (
-                <p className="text-sm text-slate-400">You&apos;ve reached the end</p>
+                <p className="text-sm font-medium text-slate-400">You&apos;ve reached the end</p>
               )}
             </div>
           </>

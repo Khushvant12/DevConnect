@@ -7,6 +7,7 @@ import { getErrorMessage } from '../utils/getErrorMessage.js';
 import ProfileHeader from '../components/profile/ProfileHeader.jsx';
 import EditProfileModal from '../components/profile/EditProfileModal.jsx';
 import SendTeamRequestModal from '../components/team/SendTeamRequestModal.jsx';
+import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Button from '../components/ui/Button.jsx';
 import Alert from '../components/ui/Alert.jsx';
 
@@ -29,9 +30,8 @@ export default function DeveloperProfile() {
       setStatusLoading(true);
       const { data } = await teamRequestService.status(profileId);
       setRequestStatus(data.data.status);
-    } catch (err) {
-      console.error('Failed to load request status:', err);
-      // Silently fail - doesn't block profile view
+    } catch {
+      // Non-blocking
     } finally {
       setStatusLoading(false);
     }
@@ -45,8 +45,7 @@ export default function DeveloperProfile() {
       setProfile(data.data.profile);
       setCompletion(data.data.profileCompletion);
       setIsOwner(data.data.isOwner);
-      
-      // Load request status after profile is loaded
+
       if (data.data.profile?._id && !data.data.isOwner) {
         await loadRequestStatus(data.data.profile._id);
       }
@@ -62,73 +61,69 @@ export default function DeveloperProfile() {
   }, [username]);
 
   const getButtonLabel = () => {
-    if (statusLoading) return 'Loading...';
-    if (requestStatus === 'pending_outgoing') return 'Request Sent';
-    if (requestStatus === 'pending_incoming') return 'Respond to Request';
+    if (statusLoading) return 'Loading…';
+    if (requestStatus === 'pending_outgoing') return 'Request sent';
+    if (requestStatus === 'pending_incoming') return 'Respond to request';
     if (requestStatus === 'accepted') return 'Connected';
-    return 'Send Team-up Request';
+    return 'Team up';
   };
 
-  const getButtonDisabled = () => {
-    return requestStatus === 'pending_outgoing' || requestStatus === 'accepted' || statusLoading;
-  };
+  const getButtonDisabled = () =>
+    requestStatus === 'pending_outgoing' || requestStatus === 'accepted' || statusLoading;
 
   const handleTeamModalClose = () => {
     setTeamModalOpen(false);
-    // Refresh status after sending a request
-    if (profile?._id) {
-      loadRequestStatus(profile._id);
-    }
+    if (profile?._id) loadRequestStatus(profile._id);
   };
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-16">
-        <div className="flex justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
-        </div>
+      <div className="page-container flex min-h-[50vh] items-center justify-center py-16">
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-16">
+      <div className="page-container max-w-lg py-16">
         <Alert>{error}</Alert>
       </div>
     );
   }
 
+  const visitorActions =
+    isAuthenticated && !isOwner && profile?._id ? (
+      <>
+        <Link to={`/chat?user=${profile._id}`}>
+          <Button>Message</Button>
+        </Link>
+        <Button
+          variant="secondary"
+          onClick={() => setTeamModalOpen(true)}
+          disabled={getButtonDisabled()}
+          title={
+            requestStatus === 'pending_outgoing'
+              ? 'Wait for response'
+              : requestStatus === 'accepted'
+                ? 'Already collaborating'
+                : ''
+          }
+        >
+          {getButtonLabel()}
+        </Button>
+      </>
+    ) : null;
+
   return (
-    <div className="mx-auto max-w-4xl animate-fade-in px-4 py-8 sm:px-6">
+    <div className="page-container max-w-5xl py-6 sm:py-8 lg:py-10">
       <ProfileHeader
         profile={profile}
         isOwner={isOwner}
         profileCompletion={completion}
         onEdit={isOwner ? () => setEditOpen(true) : undefined}
+        actions={visitorActions}
       />
-
-      {isAuthenticated && !isOwner && profile?._id && (
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link to={`/chat?user=${profile._id}`}>
-            <Button>Message</Button>
-          </Link>
-          <Button 
-            variant="secondary" 
-            onClick={() => setTeamModalOpen(true)}
-            disabled={getButtonDisabled()}
-            title={
-              requestStatus === 'pending_outgoing' 
-                ? 'Wait for response' 
-                : requestStatus === 'accepted'
-                ? 'Already collaborating'
-                : ''
-            }
-          >
-            {getButtonLabel()}
-          </Button>
-        </div>
-      )}
 
       <SendTeamRequestModal
         open={teamModalOpen}
@@ -136,6 +131,7 @@ export default function DeveloperProfile() {
         receiverId={profile?._id}
         receiverName={profile?.name}
       />
+
       {isOwner && (
         <EditProfileModal
           open={editOpen}

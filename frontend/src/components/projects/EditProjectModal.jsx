@@ -64,10 +64,10 @@ export default function EditProjectModal({ open, onClose, project, onUpdated }) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl bg-white p-6 shadow-2xl dark:bg-slate-900">
-        <h2 className="text-lg font-bold">Edit project</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+      <button type="button" className="absolute inset-0 bg-slate-900/50 backdrop-blur-md" onClick={onClose} aria-label="Close dialog" />
+      <div className="relative max-h-[90vh] w-full max-w-xl animate-slide-up overflow-y-auto rounded-2xl border border-slate-200/80 bg-white p-6 shadow-card-hover dark:border-slate-700 dark:bg-slate-900">
+        <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Edit project</h2>
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           {error && <Alert>{error}</Alert>}
           {preview && <img src={preview} alt="" className="h-32 w-full rounded-lg object-cover" />}

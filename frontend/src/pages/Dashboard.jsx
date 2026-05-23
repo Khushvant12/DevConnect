@@ -8,6 +8,8 @@ import StatCard from '../components/dashboard/StatCard.jsx';
 import EditProfileModal from '../components/profile/EditProfileModal.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Button from '../components/ui/Button.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
+import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 
 export default function Dashboard() {
   const { user, refreshUser } = useAuth();
@@ -43,7 +45,7 @@ export default function Dashboard() {
     return (
       <DashboardLayout>
         <div className="flex min-h-[40vh] items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+          <LoadingSpinner size="lg" />
         </div>
       </DashboardLayout>
     );
@@ -52,15 +54,11 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <div className="animate-fade-in space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
-            <p className="text-slate-500 dark:text-slate-400">
-              Welcome back, {profile?.name?.split(' ')[0]}
-            </p>
-          </div>
-          <Button onClick={() => setEditOpen(true)}>Edit profile</Button>
-        </div>
+        <PageHeader
+          title="Dashboard"
+          subtitle={`Welcome back, ${profile?.name?.split(' ')[0] || 'there'}`}
+          actions={<Button onClick={() => setEditOpen(true)}>Edit profile</Button>}
+        />
 
         {error && <Alert>{error}</Alert>}
 
@@ -116,7 +114,7 @@ export default function Dashboard() {
             <h2 className="font-semibold text-slate-900 dark:text-white">Recent activity</h2>
             <ul className="mt-4 space-y-3">
               {activity.length === 0 ? (
-                <li className="text-sm text-slate-500">No activity yet</li>
+                <li className="py-4 text-center text-sm text-slate-500">No activity yet — post a project or connect with developers.</li>
               ) : (
                 activity.map((item, i) => (
                   <li
@@ -140,25 +138,25 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={() => setEditOpen(true)}
-                className="rounded-lg border border-slate-200 px-4 py-3 text-left text-sm font-medium transition hover:border-brand-300 hover:bg-brand-50 dark:border-slate-700 dark:hover:bg-brand-900/20"
+                className="rounded-xl border border-slate-200 px-4 py-3.5 text-left text-sm font-medium transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:shadow-sm dark:border-slate-700 dark:hover:border-brand-700 dark:hover:bg-brand-950/30"
               >
                 Complete your profile
               </button>
               <Link
                 to="/developers"
-                className="rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium transition hover:border-brand-300 hover:bg-brand-50 dark:border-slate-700 dark:hover:bg-brand-900/20"
+                className="rounded-xl border border-slate-200 px-4 py-3.5 text-sm font-medium transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:shadow-sm dark:border-slate-700 dark:hover:border-brand-700 dark:hover:bg-brand-950/30"
               >
                 Search developers
               </Link>
               <Link
                 to={`/developers/${profile?.username}`}
-                className="rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium transition hover:border-brand-300 dark:border-slate-700"
+                className="rounded-xl border border-slate-200 px-4 py-3.5 text-sm font-medium transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:shadow-sm dark:border-slate-700 dark:hover:border-brand-700 dark:hover:bg-brand-950/30"
               >
                 View public profile
               </Link>
               <Link
                 to="/feed"
-                className="rounded-lg border border-slate-200 px-4 py-3 text-sm font-medium transition hover:border-brand-300 dark:border-slate-700"
+                className="rounded-xl border border-slate-200 px-4 py-3.5 text-sm font-medium transition-all duration-200 hover:border-brand-300 hover:bg-brand-50 hover:shadow-sm dark:border-slate-700 dark:hover:border-brand-700 dark:hover:bg-brand-950/30"
               >
                 Post a project
               </Link>
@@ -168,12 +166,12 @@ export default function Dashboard() {
 
         {/* Placeholders */}
         <div className="grid gap-6 lg:grid-cols-2">
-          <Link to="/saved" className="card border-dashed transition hover:border-brand-300 dark:hover:border-brand-700">
+          <Link to="/saved" className="card-interactive border-dashed">
             <h2 className="font-semibold text-slate-900 dark:text-white">Saved projects</h2>
             <p className="mt-2 text-2xl font-bold text-brand-600">{stats.savedProjectsCount ?? 0}</p>
             <p className="mt-1 text-sm text-slate-500">View bookmarks →</p>
           </Link>
-          <Link to="/team-requests" className="card border-dashed transition hover:border-brand-300 dark:hover:border-brand-700">
+          <Link to="/team-requests" className="card-interactive border-dashed">
             <h2 className="font-semibold text-slate-900 dark:text-white">Collaboration requests</h2>
             <p className="mt-2 text-sm text-slate-500">View team-up invites →</p>
           </Link>

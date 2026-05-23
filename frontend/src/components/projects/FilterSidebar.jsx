@@ -23,18 +23,27 @@ const SORTS = [
   { value: 'trending', label: 'Trending' },
 ];
 
+function FilterField({ label, id, children }) {
+  return (
+    <div>
+      <label htmlFor={id} className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
+
 export default function FilterSidebar({ filters, onChange }) {
   const set = (name, value) => onChange({ ...filters, [name]: value });
 
   return (
-    <aside className="card space-y-5 p-4 lg:sticky lg:top-20">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Filters</h2>
+    <aside className="card space-y-5 p-4 lg:sticky lg:top-20 lg:p-5" aria-label="Project filters">
+      <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Filters</h2>
 
-      <div>
-        <label className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
-          Sort by
-        </label>
+      <FilterField label="Sort by" id="filter-sort">
         <select
+          id="filter-sort"
           value={filters.sort}
           onChange={(e) => set('sort', e.target.value)}
           className="input-field"
@@ -45,13 +54,11 @@ export default function FilterSidebar({ filters, onChange }) {
             </option>
           ))}
         </select>
-      </div>
+      </FilterField>
 
-      <div>
-        <label className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
-          Category
-        </label>
+      <FilterField label="Category" id="filter-category">
         <select
+          id="filter-category"
           value={filters.category}
           onChange={(e) => set('category', e.target.value)}
           className="input-field"
@@ -62,13 +69,11 @@ export default function FilterSidebar({ filters, onChange }) {
             </option>
           ))}
         </select>
-      </div>
+      </FilterField>
 
-      <div>
-        <label className="mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400">
-          Difficulty
-        </label>
+      <FilterField label="Difficulty" id="filter-difficulty">
         <select
+          id="filter-difficulty"
           value={filters.difficulty}
           onChange={(e) => set('difficulty', e.target.value)}
           className="input-field"
@@ -79,7 +84,7 @@ export default function FilterSidebar({ filters, onChange }) {
             </option>
           ))}
         </select>
-      </div>
+      </FilterField>
     </aside>
   );
 }

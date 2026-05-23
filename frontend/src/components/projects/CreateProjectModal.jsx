@@ -62,11 +62,11 @@ export default function CreateProjectModal({ open, onClose, onCreated }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <button type="button" className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
-        <div className="sticky top-0 border-b border-slate-200 bg-white px-6 py-4 dark:border-slate-700 dark:bg-slate-900">
-          <h2 className="text-lg font-bold">Create project</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="create-project-title">
+      <button type="button" className="absolute inset-0 bg-slate-900/50 backdrop-blur-md transition-opacity" onClick={onClose} aria-label="Close dialog" />
+      <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-slate-200/80 bg-white shadow-card-hover animate-slide-up dark:border-slate-700 dark:bg-slate-900">
+        <div className="sticky top-0 z-10 border-b border-slate-200/80 bg-white/95 px-6 py-4 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/95">
+          <h2 id="create-project-title" className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Create project</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4 p-6">
           {error && <Alert>{error}</Alert>}

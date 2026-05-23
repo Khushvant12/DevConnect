@@ -13,23 +13,48 @@ export const normalizeTechStack = (arr) => {
   return [...new Set(arr.map((s) => String(s).trim().toLowerCase()).filter(Boolean))];
 };
 
+/** Escape user input for safe use inside RegExp. */
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/** Comma-separated tech query → unique trimmed terms. */
+const parseTechSearchTerms = (tech) => {
+  if (!tech?.trim()) return [];
+  return [
+    ...new Set(
+      tech
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean)
+    ),
+  ];
+};
+
 /**
  * Build filter for project search / feed.
  */
 export const buildProjectFilter = ({ q, tech, category, difficulty }) => {
   const filter = {};
+  const andConditions = [];
 
   if (q?.trim()) {
-    const regex = new RegExp(q.trim(), 'i');
-    filter.$or = [{ title: regex }, { description: regex }];
+    const regex = new RegExp(escapeRegex(q.trim()), 'i');
+    andConditions.push({ $or: [{ title: regex }, { description: regex }] });
   }
 
-  if (tech?.trim()) {
-    const list = tech
-      .split(',')
-      .map((t) => t.trim().toLowerCase())
-      .filter(Boolean);
-    if (list.length) filter.techStack = { $all: list };
+  const techTerms = parseTechSearchTerms(tech);
+  if (techTerms.length) {
+    // Match if ANY term partially matches ANY techStack entry (case-insensitive).
+    andConditions.push({
+      $or: techTerms.map((term) => ({
+        techStack: { $in: [new RegExp(escapeRegex(term), 'i')] },
+      })),
+    });
+  }
+
+  if (andConditions.length === 1) {
+    Object.assign(filter, andConditions[0]);
+  } else if (andConditions.length > 1) {
+    filter.$and = andConditions;
   }
 
   if (category?.trim()) filter.category = category.trim().toLowerCase();

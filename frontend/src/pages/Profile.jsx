@@ -5,6 +5,8 @@ import { getErrorMessage } from '../utils/getErrorMessage.js';
 import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import ProfileHeader from '../components/profile/ProfileHeader.jsx';
 import EditProfileModal from '../components/profile/EditProfileModal.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
+import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Alert from '../components/ui/Alert.jsx';
 
 export default function Profile() {
@@ -41,7 +43,7 @@ export default function Profile() {
     return (
       <DashboardLayout>
         <div className="flex min-h-[40vh] items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" />
+          <LoadingSpinner size="lg" />
         </div>
       </DashboardLayout>
     );
@@ -49,17 +51,25 @@ export default function Profile() {
 
   return (
     <DashboardLayout>
+      <PageHeader
+        title="My profile"
+        subtitle="How others see you on DevConnect"
+        className="!mb-6"
+      />
+
       {error && (
-        <div className="mb-4">
+        <div className="mb-6">
           <Alert>{error}</Alert>
         </div>
       )}
+
       <ProfileHeader
         profile={profile}
         isOwner
         profileCompletion={completion}
         onEdit={() => setEditOpen(true)}
       />
+
       <EditProfileModal
         open={editOpen}
         onClose={() => setEditOpen(false)}

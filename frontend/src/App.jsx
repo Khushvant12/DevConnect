@@ -21,9 +21,11 @@ import TeamRequests from './pages/TeamRequests.jsx';
 
 function AppLayout({ children }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1 focus:outline-none" tabIndex={-1}>
+        {children}
+      </main>
     </div>
   );
 }
@@ -84,21 +86,21 @@ export default function App() {
               <Route path="/developers/:username" element={<DeveloperProfile />} />
 
               <Route
-                  path="/feed"
-                  element={
+                path="/feed"
+                element={
                   <ProtectedRoute>
-                   <Feed />
-                    </ProtectedRoute>
-                    }
-                  />
+                    <Feed />
+                  </ProtectedRoute>
+                }
+              />
               <Route
-            path="/projects/:id"
-              element={
-              <ProtectedRoute>
-               <ProjectDetail />
-          </ProtectedRoute>
-                  }
-                />
+                path="/projects/:id"
+                element={
+                  <ProtectedRoute>
+                    <ProjectDetail />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/saved"
                 element={

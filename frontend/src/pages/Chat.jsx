@@ -55,11 +55,30 @@ export default function Chat() {
     setSearchParams({ user: partner._id });
   };
 
+  const handleBack = () => {
+    setActivePartner(null);
+    setSearchParams({});
+  };
+
+  const showSidebar = !activePartner;
+  const showChat = !!activePartner;
+
   return (
-    <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-7xl flex-col lg:flex-row">
-      <aside className="w-full shrink-0 overflow-y-auto border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 lg:w-80 lg:border-b-0 lg:border-r">
-        <div className="border-b border-slate-100 px-4 py-3 dark:border-slate-800">
-          <h1 className="font-bold text-slate-900 dark:text-white">Messages</h1>
+    <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-6xl flex-col overflow-hidden border-x border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900 lg:flex-row">
+      {/* Conversation list */}
+      <aside
+        className={`flex w-full shrink-0 flex-col border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900 lg:w-[340px] lg:border-r ${
+          showSidebar ? 'flex' : 'hidden lg:flex'
+        }`}
+        aria-label="Conversation list"
+      >
+        <div className="shrink-0 border-b border-slate-200/80 px-4 py-4 dark:border-slate-800">
+          <h1 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
+            Messages
+          </h1>
+          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+            Chat with developers in real time
+          </p>
         </div>
         <ChatSidebar
           conversations={conversations}
@@ -68,9 +87,16 @@ export default function Chat() {
           loading={loading}
         />
       </aside>
-      <div className="flex min-h-0 flex-1 flex-col bg-white dark:bg-slate-950">
-        <ChatWindow partner={activePartner} />
-      </div>
+
+      {/* Active chat */}
+      <section
+        className={`min-h-0 min-w-0 flex-1 flex-col ${
+          showChat ? 'flex' : 'hidden lg:flex'
+        }`}
+        aria-label="Active conversation"
+      >
+        <ChatWindow partner={activePartner} onBack={handleBack} />
+      </section>
     </div>
   );
 }

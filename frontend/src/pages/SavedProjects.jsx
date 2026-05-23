@@ -7,6 +7,9 @@ import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import ProjectCard from '../components/projects/ProjectCard.jsx';
 import ProjectCardSkeleton from '../components/projects/ProjectCardSkeleton.jsx';
 import Alert from '../components/ui/Alert.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
+import EmptyState from '../components/ui/EmptyState.jsx';
+import Button from '../components/ui/Button.jsx';
 
 export default function SavedProjects() {
   const { showToast } = useToast();
@@ -67,10 +70,10 @@ export default function SavedProjects() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Saved projects</h1>
-          <p className="text-slate-500">Bookmarks you&apos;ve saved for later</p>
-        </div>
+        <PageHeader
+          title="Saved projects"
+          subtitle="Bookmarks you've saved for later"
+        />
 
         {error && <Alert>{error}</Alert>}
 
@@ -81,12 +84,20 @@ export default function SavedProjects() {
             ))}
           </div>
         ) : projects.length === 0 ? (
-          <div className="card py-16 text-center">
-            <p className="text-slate-600 dark:text-slate-400">No saved projects yet.</p>
-            <Link to="/feed" className="mt-4 inline-block text-brand-600 hover:underline">
-              Browse the feed →
-            </Link>
-          </div>
+          <EmptyState
+            icon={
+              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+            }
+            title="No saved projects yet"
+            description="Save projects from the feed to revisit them here."
+            action={
+              <Link to="/feed">
+                <Button>Browse feed</Button>
+              </Link>
+            }
+          />
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((p) => (

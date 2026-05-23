@@ -63,7 +63,7 @@ export default function Login() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="card space-y-4 !p-6">
+      <form onSubmit={handleSubmit} className="card space-y-5 !p-6 sm:!p-8">
         <Input
           label="Email"
           id="email"
