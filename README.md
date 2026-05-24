@@ -32,7 +32,8 @@ DevConnect/
 │       ├── pages/
 │       ├── services/
 │       └── utils/
-├── docs/             # API & setup guides
+├── backend/.env.example
+├── frontend/.env.example
 └── README.md
 ```
 
@@ -69,7 +70,7 @@ App runs at `http://localhost:5173`
 
 ## Environment Variables
 
-See [docs/SETUP.md](docs/SETUP.md) and [docs/API.md](docs/API.md).
+Copy `backend/.env.example` and `frontend/.env.example`, then fill in MongoDB URI, JWT secret, and API URLs.
 
 ## Deployment
 
