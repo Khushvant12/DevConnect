@@ -2,8 +2,8 @@
  * Environment URL resolution (no import.meta — safe for Vite config import).
  */
 
-export const PRODUCTION_API_BASE = 'https://devconnect-backend-opz0.onrender.com/api';
-export const PRODUCTION_SOCKET_URL = 'https://devconnect-backend-opz0.onrender.com';
+export const PRODUCTION_API_BASE = 'https://devconnect-8xqr.onrender.com/api';
+export const PRODUCTION_SOCKET_URL = 'https://devconnect-8xqr.onrender.com';
 export const DEVELOPMENT_API_BASE = 'http://localhost:5000/api';
 export const DEVELOPMENT_SOCKET_URL = 'http://localhost:5000';
 

@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import app from './app.js';
 import { connectDB } from './config/db.js';
 import { initSocket } from './socket/socketServer.js';
+import { getAllowedOrigins } from './config/cors.js';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const startServer = async () => {
   server.listen(PORT, () => {
     console.log(`DevConnect API running on port ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log('CORS allowed origins:', getAllowedOrigins().join(', '));
   });
 };
 
