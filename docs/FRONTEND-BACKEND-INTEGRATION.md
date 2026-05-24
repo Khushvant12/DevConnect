@@ -5,9 +5,10 @@
 ```
 frontend/src/
 ├── config/
-│   └── constants.js       # API URL, localStorage keys
+│   ├── env.js             # URL normalization (dev/prod, single /api suffix)
+│   └── constants.js       # API_BASE_URL, SOCKET_URL, localStorage keys
 ├── services/
-│   ├── api.js             # Axios instance (baseURL, withCredentials, interceptors)
+│   ├── api.js             # Axios instance (baseURL = API_BASE_URL, interceptors)
 │   └── authService.js     # register, login, getMe
 ├── context/
 │   └── AuthContext.jsx    # Global auth state
@@ -34,7 +35,8 @@ frontend/src/
 ## Axios setup (`services/api.js`)
 
 ```js
-baseURL: 'http://localhost:5000/api'
+// constants.js normalizes VITE_API_URL → exactly one `/api` suffix
+baseURL: API_BASE_URL   // e.g. http://localhost:5000/api or https://devconnect-backend-opz0.onrender.com/api
 withCredentials: true   // sends cookies if backend sets them; pairs with CORS credentials
 ```
 

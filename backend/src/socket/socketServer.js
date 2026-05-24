@@ -4,6 +4,7 @@ import User from '../models/User.js';
 import Message from '../models/Message.js';
 import { getPrivateRoom, getUserRoom } from '../utils/chatHelpers.js';
 import { createNotification, setSocketIO, getUnreadCount } from '../services/notificationService.js';
+import { getAllowedOrigins } from '../config/cors.js';
 
 /** userId -> Set of socket ids (multi-tab support) */
 const onlineUsers = new Map();
@@ -29,11 +30,9 @@ const removeOnline = (userId, socketId) => {
 export const isUserOnline = (userId) => onlineUsers.has(String(userId));
 
 export const initSocket = (httpServer) => {
-  const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
-
   const io = new Server(httpServer, {
     cors: {
-      origin: clientUrl,
+      origin: getAllowedOrigins(),
       credentials: true,
     },
   });

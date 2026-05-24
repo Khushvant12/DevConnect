@@ -22,14 +22,29 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
 
-## Frontend `.env`
+## Frontend environment
 
-Copy `frontend/.env.example` to `frontend/.env`:
+Local dev uses `frontend/.env.development` (defaults to `http://localhost:5000` → API base `http://localhost:5000/api`).
+
+Production builds use `frontend/.env.production` (Render backend). On Vercel you can override with the same variables.
 
 ```env
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=http://localhost:5000
 VITE_SOCKET_URL=http://localhost:5000
 ```
+
+Production (Vercel **or** `.env.production`):
+
+```env
+VITE_API_URL=https://devconnect-backend-opz0.onrender.com
+VITE_SOCKET_URL=https://devconnect-backend-opz0.onrender.com
+```
+
+Rules:
+
+- Set **origin only** (no `/api` in `VITE_API_URL`); `src/config/env.js` appends `/api` exactly once.
+- Never use relative URLs like `/api` for production — requests would hit the frontend host.
+- All REST calls go through `src/services/api.js` (Axios `baseURL` = resolved API base).
 
 ## Scripts
 
@@ -52,6 +67,7 @@ If upload returns 503, Cloudinary env vars are missing or incorrect.
 
 ## Troubleshooting
 
-- **CORS errors**: Ensure `CLIENT_URL` matches your Vite URL.
+- **CORS errors**: Ensure `CLIENT_URL` includes your frontend origin (comma-separated for multiple).
+- **API hits `/auth/login` on the frontend domain**: Rebuild frontend — `API_BASE_URL` must be absolute (`http://localhost:5000/api` locally, Render URL in prod). Check browser Network tab for full request URL.
 - **JWT invalid**: Clear `localStorage` token and log in again.
 - **Mongo connection**: Check URI, network access, and credentials.

@@ -1,3 +1,5 @@
+import { API_ORIGIN } from '../config/constants.js';
+
 /**
  * Extract a user-friendly message from Axios / API errors.
  */
@@ -13,7 +15,7 @@ export function getErrorMessage(error, fallback = 'Something went wrong. Please 
   }
 
   if (error.message === 'Network Error') {
-    return 'Cannot reach the server. Is the backend running on http://localhost:5000?';
+    return `Cannot reach the server. Check that the API is available at ${API_ORIGIN}.`;
   }
 
   return fallback;
