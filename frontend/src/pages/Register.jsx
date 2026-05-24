@@ -52,7 +52,7 @@ export default function Register() {
         email: values.email.trim().toLowerCase(),
         password: values.password,
       });
-      navigate('/dashboard', { replace: true });
+      navigate('/feed', { replace: true });
     } catch (err) {
       setApiError(
         getErrorMessage(

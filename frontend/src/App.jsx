@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext.jsx';
+import { AuthProvider, useAuth } from './context/AuthContext.jsx';
+import { TOKEN_KEY } from './config/constants.js';
 import { SocketProvider } from './context/SocketContext.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import { ToastProvider } from './context/ToastContext.jsx';
@@ -30,6 +31,30 @@ function AppLayout({ children }) {
   );
 }
 
+/** Logged-in users skip marketing home and land on the feed. */
+function HomeRedirect() {
+  const { loading, isAuthenticated, user } = useAuth();
+  const hasToken = Boolean(localStorage.getItem(TOKEN_KEY));
+
+  if (hasToken && (loading || !user)) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div
+          className="h-10 w-10 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600"
+          role="status"
+          aria-label="Loading"
+        />
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/feed" replace />;
+  }
+
+  return <Home />;
+}
+
 export default function App() {
   return (
     <ThemeProvider>
@@ -39,7 +64,7 @@ export default function App() {
         <BrowserRouter>
           <AppLayout>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<HomeRedirect />} />
 
               <Route
                 path="/login"
