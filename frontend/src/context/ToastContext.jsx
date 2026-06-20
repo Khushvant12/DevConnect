@@ -1,12 +1,12 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState, useMemo } from 'react';
 
 const ToastContext = createContext(null);
 
 const toastStyles = {
   success:
-    'border-emerald-200/60 bg-white text-slate-900 shadow-card-hover dark:border-emerald-900/40 dark:bg-slate-900 dark:text-slate-100',
+    'glass-card border-emerald-500/20 bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-slate-100 shadow-lg',
   error:
-    'border-red-200/60 bg-white text-slate-900 shadow-card-hover dark:border-red-900/40 dark:bg-slate-900 dark:text-slate-100',
+    'glass-card border-red-500/20 bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-slate-100 shadow-lg',
 };
 
 const dotStyles = {
@@ -25,8 +25,10 @@ export function ToastProvider({ children }) {
     }, 4000);
   }, []);
 
+  const value = useMemo(() => ({ showToast }), [showToast]);
+
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={value}>
       {children}
       <div
         className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-full max-w-sm flex-col gap-2 px-4 sm:px-0"

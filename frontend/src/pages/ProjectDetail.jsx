@@ -112,7 +112,13 @@ export default function ProjectDetail() {
 
       <article className="card mt-4 overflow-hidden p-0">
         {project.thumbnail ? (
-          <img src={project.thumbnail} alt="" className="h-64 w-full object-cover" />
+          <div className="relative flex justify-center bg-slate-100/40 dark:bg-slate-950/20 border-b border-slate-200/50 dark:border-white/5">
+            <img
+              src={project.thumbnail}
+              alt={project.title}
+              className="max-h-[450px] w-full object-contain"
+            />
+          </div>
         ) : (
           <div className="flex h-48 items-center justify-center bg-gradient-to-br from-brand-100 to-brand-200 dark:from-brand-950">
             <span className="text-5xl font-bold text-brand-500/30">{'</>'}</span>

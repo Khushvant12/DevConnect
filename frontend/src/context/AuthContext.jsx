@@ -4,6 +4,7 @@ import {
   useEffect,
   useState,
   useCallback,
+  useMemo,
 } from 'react';
 import { authService } from '../services/authService.js';
 import { TOKEN_KEY, USER_KEY } from '../config/constants.js';
@@ -94,16 +95,19 @@ export const AuthProvider = ({ children }) => {
     clearAuth();
   }, [clearAuth]);
 
-  const value = {
-    user,
-    token,
-    loading,
-    isAuthenticated: Boolean(token && user),
-    register,
-    login,
-    logout,
-    refreshUser,
-  };
+  const value = useMemo(
+    () => ({
+      user,
+      token,
+      loading,
+      isAuthenticated: Boolean(token && user),
+      register,
+      login,
+      logout,
+      refreshUser,
+    }),
+    [user, token, loading, logout, refreshUser]
+  );
 
   return (
     <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

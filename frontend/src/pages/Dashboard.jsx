@@ -63,20 +63,21 @@ export default function Dashboard() {
         {error && <Alert>{error}</Alert>}
 
         {/* User info card */}
-        <div className="card flex flex-col gap-4 sm:flex-row sm:items-center">
+        <div className="glass-card p-6 flex flex-col gap-6 sm:flex-row sm:items-center relative overflow-hidden">
+          <div className="absolute right-0 top-0 -z-10 h-32 w-32 rounded-full bg-brand-500/5 blur-2xl" />
           {profile?.avatar ? (
             <img
               src={profile.avatar}
               alt=""
-              className="h-16 w-16 rounded-full object-cover ring-2 ring-brand-500"
+              className="h-16 w-16 rounded-full object-cover ring-2 ring-brand-500/30"
             />
           ) : (
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-xl font-bold text-brand-700 dark:bg-brand-900">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-500/10 text-xl font-bold text-brand-500">
               {profile?.name?.charAt(0)}
             </div>
           )}
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{profile?.name}</h2>
+            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{profile?.name}</h2>
             <p className="text-sm text-slate-500">@{profile?.username} · {profile?.email}</p>
             {profile?.bio && (
               <p className="mt-2 line-clamp-2 text-sm text-slate-600 dark:text-slate-400">
@@ -84,9 +85,9 @@ export default function Dashboard() {
               </p>
             )}
           </div>
-          <div className="text-right">
-            <p className="text-3xl font-bold text-brand-600">{completion}%</p>
-            <p className="text-xs text-slate-500">Profile complete</p>
+          <div className="sm:text-right shrink-0">
+            <p className="text-4xl font-extrabold bg-gradient-to-br from-brand-400 to-brand-600 bg-clip-text text-transparent">{completion}%</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Profile Complete</p>
           </div>
         </div>
 

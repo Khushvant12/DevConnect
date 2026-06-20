@@ -5,7 +5,7 @@ import { useTheme } from '../../context/ThemeContext.jsx';
 import Button from '../ui/Button.jsx';
 import NotificationDropdown from '../notifications/NotificationDropdown.jsx';
 
-const guestLinks = [{ to: '/feed', label: 'Feed' }];
+const guestLinks = [];
 
 const authLinks = [
   { to: '/feed', label: 'Feed' },
@@ -79,7 +79,7 @@ export default function Navbar() {
     }`;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 shadow-nav backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/90">
+    <header className="sticky top-0 z-50 border-b border-slate-200/50 bg-white/70 shadow-sm backdrop-blur-md dark:border-white/5 dark:bg-slate-950/70">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
@@ -96,7 +96,7 @@ export default function Navbar() {
           className="group flex items-center gap-2.5 rounded-xl py-1 pr-2 transition-opacity hover:opacity-90"
           onClick={() => setMobileOpen(false)}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-sm font-bold text-white shadow-sm transition-transform duration-200 group-hover:scale-105">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-400 to-brand-600 text-sm font-bold text-white shadow-md shadow-brand-500/20 transition-transform duration-200 group-hover:scale-105 group-hover:shadow-brand-500/30">
             DC
           </span>
           <span className="hidden font-bold tracking-tight text-slate-900 sm:inline dark:text-white">

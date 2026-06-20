@@ -8,19 +8,21 @@ export default function ProfileCard({ profile }) {
   return (
     <Link
       to={`/developers/${profile.username}`}
-      className="card-interactive group block overflow-hidden p-0"
+      className="glass-card-interactive group block overflow-hidden p-0"
     >
-      <div className="h-16 bg-gradient-to-r from-slate-800 to-brand-800 opacity-90 transition group-hover:opacity-100" />
+      <div className="h-16 bg-gradient-to-r from-brand-500/20 via-violet-500/20 to-emerald-500/15 opacity-80 transition duration-300 group-hover:opacity-100 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+      </div>
       <div className="relative px-5 pb-5">
         <div className="-mt-8 mb-3 flex items-end justify-between">
           {profile.avatar ? (
             <img
               src={profile.avatar}
               alt=""
-              className="h-14 w-14 rounded-xl border-4 border-white object-cover shadow-md ring-2 ring-brand-500/20 dark:border-slate-900"
+              className="h-14 w-14 rounded-xl border-4 border-slate-50 object-cover shadow-md ring-2 ring-brand-500/20 dark:border-slate-900"
             />
           ) : (
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl border-4 border-white bg-gradient-to-br from-brand-100 to-brand-200 text-lg font-bold text-brand-700 shadow-md dark:border-slate-900 dark:from-brand-900 dark:to-brand-950 dark:text-brand-300">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl border-4 border-slate-50 bg-gradient-to-br from-brand-100 to-brand-200 text-lg font-bold text-brand-700 shadow-md dark:border-slate-900 dark:from-brand-900 dark:to-brand-950 dark:text-brand-300">
               {initials}
             </div>
           )}

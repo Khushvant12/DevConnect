@@ -37,10 +37,10 @@ function MessageBubble({ message, isOwn, showAvatar, avatarUrl, senderName, isGr
           </span>
         )}
         <div
-          className={`relative px-4 py-2.5 shadow-sm transition-colors ${
+          className={`relative px-4 py-2.5 shadow-sm transition-all duration-200 ${
             isOwn
-              ? `rounded-2xl bg-brand-600 text-white ${isGrouped ? 'rounded-tr-lg' : 'rounded-br-md'}`
-              : `rounded-2xl border border-slate-200/80 bg-white text-slate-900 dark:border-slate-700/80 dark:bg-slate-800 dark:text-slate-100 ${
+              ? `rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white shadow-md shadow-brand-500/10 ${isGrouped ? 'rounded-tr-lg' : 'rounded-br-md'}`
+              : `rounded-2xl border border-slate-200/60 bg-white/80 text-slate-900 dark:border-white/5 dark:bg-slate-900/50 dark:text-slate-100 ${
                   isGrouped ? 'rounded-tl-lg' : 'rounded-bl-md'
                 }`
           }`}

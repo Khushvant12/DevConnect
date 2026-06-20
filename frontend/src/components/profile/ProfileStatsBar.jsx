@@ -2,12 +2,12 @@ import { EXPERIENCE_LABELS } from '../../utils/profileCompletion.js';
 
 function StatItem({ label, value, icon }) {
   return (
-    <div className="flex flex-col items-center rounded-xl border border-slate-200/80 bg-white/80 px-4 py-3 text-center backdrop-blur-sm dark:border-slate-700/80 dark:bg-slate-900/80 sm:px-5">
+    <div className="glass-card flex flex-col items-center px-4 py-3.5 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 sm:px-5">
       <span className="mb-1 text-slate-400 dark:text-slate-500" aria-hidden="true">
         {icon}
       </span>
       <span className="text-xl font-bold tabular-nums text-slate-900 dark:text-white">{value}</span>
-      <span className="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
         {label}
       </span>
     </div>

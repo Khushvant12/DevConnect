@@ -109,12 +109,14 @@ export function SocketProvider({ children }) {
     });
   }, []);
 
+  const isUserOnline = useCallback((id) => onlineUsers.has(String(id)), [onlineUsers]);
+
   const value = useMemo(
     () => ({
       socket: socketRef.current,
       connected,
       onlineUsers,
-      isUserOnline: (id) => onlineUsers.has(String(id)),
+      isUserOnline,
       joinChat,
       leaveChat,
       sendMessage,
@@ -125,13 +127,13 @@ export function SocketProvider({ children }) {
     [
       connected,
       onlineUsers,
+      isUserOnline,
       joinChat,
       leaveChat,
       sendMessage,
       emitTyping,
       emitStopTyping,
       markMessagesRead,
-      socket,
     ]
   );
 

@@ -77,19 +77,12 @@ export default function DeveloperProfileView({
   return (
     <div className="animate-fade-in space-y-6">
       {/* Hero */}
-      <div className="card overflow-hidden p-0">
+      <div className="glass-card overflow-hidden p-0">
         <div
-          className="relative h-28 bg-gradient-to-r from-slate-900 via-brand-900 to-brand-700 sm:h-36 md:h-40"
+          className="relative h-28 bg-gradient-to-r from-brand-500/20 via-violet-500/20 to-emerald-500/15 sm:h-36 md:h-40 overflow-hidden"
           aria-hidden="true"
         >
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              backgroundImage:
-                'radial-gradient(circle at 2px 2px, rgb(255 255 255 / 0.15) 1px, transparent 0)',
-              backgroundSize: '20px 20px',
-            }}
-          />
+          <div className="absolute inset-0 bg-grid-pattern opacity-15" />
         </div>
 
         <div className="relative px-4 pb-6 sm:px-6 md:px-8">

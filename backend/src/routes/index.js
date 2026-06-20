@@ -6,13 +6,21 @@ import messageRoutes from './messageRoutes.js';
 import teamRequestRoutes from './teamRequestRoutes.js';
 import notificationRoutes from './notificationRoutes.js';
 
+import { rateLimiter } from '../middleware/rateLimiter.js';
+
 const router = express.Router();
+
+const authLimiter = rateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 50, // 50 attempts per 15 minutes
+  message: 'Too many authentication attempts from this IP, please try again after 15 minutes',
+});
 
 router.get('/health', (_req, res) => {
   res.json({ success: true, message: 'DevConnect API is running' });
 });
 
-router.use('/auth', authRoutes);
+router.use('/auth', authLimiter, authRoutes);
 router.use('/profile', profileRoutes);
 router.use('/projects', projectRoutes);
 router.use('/messages', messageRoutes);
